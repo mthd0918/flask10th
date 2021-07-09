@@ -22,8 +22,8 @@ def tpl():
 
 @app.route('/wheather')
 def wheather():
-    today_whether = '晴れ'
-    return render_template('whether.html', today_wheather=wheather)
+    today_wheather = '晴れ'
+    return render_template('wheather.html', today_wheather=wheather)
 
 
 ## おまじない
