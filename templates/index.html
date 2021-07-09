@@ -2,3 +2,8 @@
 {% block content %}
 <p>{{tpl_name}}さん、こんにちは！！</p>
 {% endblock %}
+
+{% extends "base.html" %}
+{% block content %}
+<p>{{today_weather}}</p>
+{% endblock %}

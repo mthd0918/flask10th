@@ -20,6 +20,12 @@ def tpl():
     name = 'hidechika'
     return render_template('index.html', tpl_name=name)
 
+@app.route('/wheather')
+def wheather():
+    today_whether = '晴れ'
+    return render_template('whether.html', today_wheather=wheather)
+
+
 ## おまじない
 if __name__ == "__main__":
     app.run(debug=True)
