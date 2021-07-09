@@ -22,8 +22,16 @@ def tpl():
 
 @app.route('/wheather')
 def wheather():
-    today_wheather = '晴れ'
+    wheather = '晴れ'
     return render_template('wheather.html', today_wheather=wheather)
+
+@app.route('/dbtest')
+def dbtest():
+    name="hidechika"
+    age="25"
+    address="那覇市国場1184-6"
+    return render_template("dbtest.html", html_name=name , html_age=age , html_address=address)
+
 
 
 ## おまじない
