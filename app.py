@@ -1,6 +1,7 @@
 from sqlite3.dbapi2 import connect
 from flask import Flask,render_template
 import sqlite3
+import random
 app = Flask(__name__)
 
 @app.route('/')
@@ -42,7 +43,18 @@ def dbtest():
     print(user_info)
     return render_template('dbtest.html', html_name=user_info[0] , html_age=user_info[1] , html_address=user_info[2])
 
+@app.route('/color')
+def color():
+    conn = sqlite3.connect("flasktest.db")
+    c = conn.cursor()
+    c.execute('select name from color')
+    color = c.fetchall()
+    c.close()
 
+    print(color)
+
+    color_choice = random.choice(color)
+    return render_template('color.html', html_color=color_choice[0])
 
 ## おまじない
 if __name__ == "__main__":
