@@ -1,4 +1,6 @@
+from sqlite3.dbapi2 import connect
 from flask import Flask,render_template
+import sqlite3
 app = Flask(__name__)
 
 @app.route('/')
@@ -27,10 +29,18 @@ def wheather():
 
 @app.route('/dbtest')
 def dbtest():
-    name="hidechika"
-    age="25"
-    address="那覇市国場1184-6"
-    return render_template("dbtest.html", html_name=name , html_age=age , html_address=address)
+    #flasktest.dbに接続
+    conn = sqlite3.connect("flasktest.db")
+    #DBを操作できるようにする
+    c = conn.cursor()
+    #SQLを実行
+    c.execute('select name,age,address from user where id = 1')
+    #SQLで取得したデータをpythonの変数に格納
+    user_info = c.fetchone()
+    #DBとの接続を終える
+    c.close()
+    print(user_info)
+    return render_template('dbtest.html', html_name=user_info[0] , html_age=user_info[1] , html_address=user_info[2])
 
 
 
