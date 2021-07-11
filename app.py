@@ -1,7 +1,9 @@
 from sqlite3.dbapi2 import connect
-from flask import Flask,render_template
+from flask import Flask,render_template,request
 import sqlite3
 import random
+
+from flask.wrappers import Request
 app = Flask(__name__)
 
 @app.route('/')
@@ -55,6 +57,25 @@ def color():
 
     color_choice = random.choice(color)
     return render_template('color.html', html_color=color_choice[0])
+
+@app.route('/add_get')
+def add_get():
+    return render_template('add.html')
+
+#methodのsを気を付ける！
+@app.route('/add_post', methods=['POST'])
+def add_post():
+#HTMLの入力フォームから受け取る
+    py_task = request.form.get("html_task")
+    print(py_task)
+    conn = sqlite3.connect("flasktest.db")
+    c = conn.cursor()
+    #DBに値を挿入するSQL
+    c.execute('insert into task values(null, ?)', (py_task,))
+    #DBに変更を加え保存
+    conn.commit()
+    c.close()
+    return render_template('add.html')
 
 ## おまじない
 if __name__ == "__main__":
