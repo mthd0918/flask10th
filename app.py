@@ -77,6 +77,28 @@ def add_post():
     c.close()
     return render_template('add.html')
 
+@app.route('/list')
+def list():
+    conn = sqlite3.connect("flasktest.db")
+    c = conn.cursor()
+    #DBから値をtaskテーブルから取得
+    c.execute('select id, name from task')
+    py_task = c.fetchall()
+    c.close()
+    print(py_task)
+    #格納用の変数（リスト型）を用意
+    task_list=[]
+    #DBから持ってきたデータをすべて追加していく
+    for item in py_task:
+        #taskリストに追加していく
+        task_list.append({'id':item[0], 'name':item[1]})
+
+    return render_template('list.html', html_task=task_list)
+
+@app.errorhandler(404)
+def not_found(error):
+    return 'お探しのページは見つかりませんでした'
+
 ## おまじない
 if __name__ == "__main__":
     app.run(debug=True)
