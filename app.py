@@ -4,6 +4,7 @@ import sqlite3
 import random
 
 from flask.wrappers import Request
+from werkzeug.utils import redirect
 app = Flask(__name__)
 
 @app.route('/')
@@ -96,10 +97,30 @@ def list():
     return render_template('list.html', html_task=task_list)
 
 
-@app.route('/edit_get')
-def edit_get():
-    return render_template('edit.html')
+@app.route('/edit_get/<task_id>')
+def edit_get(task_id):
+    conn = sqlite3.connect("flasktest.db")
+    c = conn.cursor()
+    #DBから値をtaskテーブルから取得
+    c.execute('select name from task where id = ?', (task_id))
+    #タプル型から値を取り出す、('')を取り除く
+    py_task = c.fetchone()[0]
+    c.close()
+    return render_template('edit.html', html_id=task_id, html_task =py_task)
 
+@app.route('/edit_post', methods=['POST'])
+def edit_post():
+    #htmlの入力フォームから受け取る
+    py_id = request.form.get('html_id')
+    py_name = request.form.get('html_task')
+    conn = sqlite3.connect("flasktest.db")
+    c = conn.cursor()
+    #DBに値を挿入するSQL
+    c.execute('UPDATE task SET name = ? WHERE id = ?',(py_name, py_id))
+    #DBに変更を加え保存
+    conn.commit()
+    c.close()
+    return redirect('/list')
 
 @app.errorhandler(404)
 def not_found(error):

@@ -7,8 +7,9 @@
     <tr>
         <td>{{item['id']}}</td>
         <td>{{item['name']}}</td>
+        <td><a href="/edit_get/{{item['id']}}">編集する</a></td>
     </tr>
     {% endfor %}
 </table>
-
+<a href="add_get">やることを追加する</a>
 {% endblock %}
