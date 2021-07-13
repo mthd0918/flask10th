@@ -8,6 +8,8 @@
         <td>{{item['id']}}</td>
         <td>{{item['name']}}</td>
         <td><a href="/edit_get/{{item['id']}}">編集する</a></td>
+        <td><a href="/delete/{{item['id']}}">削除</a></td>
+
     </tr>
     {% endfor %}
 </table>

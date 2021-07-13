@@ -122,6 +122,17 @@ def edit_post():
     c.close()
     return redirect('/list')
 
+@app.route('/delete/<task_id>')
+def delete(task_id):
+    conn = sqlite3.connect("flasktest.db")
+    c = conn.cursor()
+    #DBから値を削除する
+    c.execute('delete from task WHERE id = ?',(task_id,))
+    #DBに変更を加え保存
+    conn.commit()
+    c.close()
+    return redirect('/list')
+
 @app.errorhandler(404)
 def not_found(error):
     return 'お探しのページは見つかりませんでした'
