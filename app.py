@@ -1,11 +1,14 @@
+
 from sqlite3.dbapi2 import connect
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,redirect,session
 import sqlite3
 import random
+
 
 from flask.wrappers import Request
 from werkzeug.utils import redirect
 app = Flask(__name__)
+app.secret_key="jsltqn4398quwyi-0i["
 
 @app.route('/')
 def hello():
@@ -76,7 +79,7 @@ def add_post():
     #DBに変更を加え保存
     conn.commit()
     c.close()
-    return render_template('add.html')
+    return redirect('/list')
 
 @app.route('/list')
 def list():
@@ -136,6 +139,43 @@ def delete(task_id):
 @app.route('/regist_get')
 def regist_get():
     return render_template('regist.html')
+
+#flask25
+@app.route('/regist_post', methods=['POST'])
+def regist_post():
+    py_name = request.form.get('html_name')
+    py_pass = request.form.get('html_pswd')
+    conn = sqlite3.connect("flasktest.db")
+    c = conn.cursor()
+    #DBに値を挿入するSQL
+    c.execute('insert into account values(null, ?, ?)',(py_name, py_pass))
+    #DBに変更を加え保存
+    conn.commit()
+    c.close()
+    return render_template('login.html')
+
+@app.route('/login_get')
+def login_get():
+    return render_template('login.html')
+
+@app.route('/login_post', methods=['POST'])    
+def login_post():
+    py_name = request.form.get('html_name')
+    py_pass = request.form.get('html_pswd')
+    conn = sqlite3.connect("flasktest.db")
+    c = conn.cursor()
+    #DBから値をaccountテーブルから取得
+    c.execute('select id from account where name = ? and password = ?', (py_name, py_pass))
+    py_id = c.fetchone()
+    c.close()
+    #idが空っぽだった場合はログイン画面、そうじゃなければリスト画面
+    if py_id is None:
+        return render_template('/login.html')
+    else:
+        #クッキーとして、ブラウザにログイン情報を保存
+        session['user_id'] = py_id[0]
+        return redirect('/list')
+
 
 
 @app.errorhandler(404)

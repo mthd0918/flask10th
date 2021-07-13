@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="/regist_post" method="post">
+<form action="/login_post" method="post">
+    <h1>ログイン画面</h1>
     <p>ユーザー名</p>
     <input type="text" name="html_name">
     <p>パスワード</p>
     <input type="password" name="html_pswd">
-    <input type="submit" value="送信">
+    <input type="submit" value="ログイン">
 </form>
 {% endblock %}
