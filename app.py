@@ -95,6 +95,12 @@ def list():
 
     return render_template('list.html', html_task=task_list)
 
+
+@app.route('/edit_get')
+def edit_get():
+    return render_template('edit.html')
+
+
 @app.errorhandler(404)
 def not_found(error):
     return 'お探しのページは見つかりませんでした'

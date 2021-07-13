@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="/edit_post" method="post">
+    <input type="text" name="html_id">
+    <input type="text" name="html_task">
+    <input type="submit" value="変更">
+</form>
+{% endblock %}
