@@ -133,6 +133,11 @@ def delete(task_id):
     c.close()
     return redirect('/list')
 
+@app.route('/regist_get')
+def regist_get():
+    return render_template('regist.html')
+
+
 @app.errorhandler(404)
 def not_found(error):
     return 'お探しのページは見つかりませんでした'
